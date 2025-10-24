@@ -1,0 +1,192 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+// --- Modern "Glassmorphism" Navbar ---
+.navbar {
+  background: rgba(18, 18, 18, 0.6);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  width: 100%;
+}
+
+.nav-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 64px;
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--primary-text-color);
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.nav-logo {
+  width: 24px;
+  height: 24px;
+}
+
+// --- THIS IS THE FIX ---
+.nav-links {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end; // Align items to the right
+  gap: 0.5rem;
+  flex-shrink: 0; // Prevent the container from shrinking
+
+  a {
+    position: relative;
+    color: var(--secondary-text-color);
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    transition: color 0.3s ease, background-color 0.3s ease;
+    white-space: nowrap; // Prevent text like "Add Stock" from wrapping
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 2px;
+      background-color: var(--accent-color);
+      transition: width 0.3s ease;
+    }
+
+    &:hover {
+      color: var(--primary-text-color);
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+    
+    &.active, &:hover {
+      &::after {
+        width: 60%;
+      }
+    }
+
+    &.active {
+      color: var(--primary-text-color);
+    }
+  }
+}
+// --- END OF FIX ---
+
+.profile-menu {
+  position: relative;
+  margin-left: 1rem;
+}
+
+.profile-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .profile-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--border-color);
+    transition: border-color 0.2s;
+    &:hover {
+      border-color: var(--accent-color);
+    }
+  }
+
+  .profile-avatar-default {
+    width: 36px;
+    height: 36px;
+    color: var(--secondary-text-color);
+    background-color: var(--surface-color);
+    border-radius: 50%;
+    border: 2px solid var(--border-color);
+  }
+}
+
+.dropdown-content {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  background-color: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  width: 240px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+  overflow: hidden;
+  animation: fadeIn 0.2s ease-out;
+
+  .dropdown-header {
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-color);
+    .user-name {
+      display: block;
+      font-weight: 600;
+      color: var(--primary-text-color);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .user-email {
+      display: block;
+      font-size: 0.8rem;
+      color: var(--secondary-text-color);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  a {
+    display: block;
+    padding: 0.75rem 1rem;
+    color: var(--secondary-text-color);
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.2s;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.05);
+      color: var(--primary-text-color);
+    }
+  }
+}
+
+.main-content {
+  flex-grow: 1;
+  padding: 2.5rem 2rem;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

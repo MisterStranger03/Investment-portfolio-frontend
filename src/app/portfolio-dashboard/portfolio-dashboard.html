@@ -1,0 +1,81 @@
+<div class="dashboard-container">
+  <!-- Show summary cards only if not loading and portfolio has data -->
+  @if (!isLoading && portfolio.length > 0) {
+    <div class="summary-cards">
+      <div class="summary-card">
+        <span class="label">Total Invested</span>
+        <span class="value">{{ totalInvested | currency:userCurrency }}</span>
+      </div>
+      <div class="summary-card">
+        <span class="label">Current Value</span>
+        <span class="value">{{ totalCurrentValue | currency:userCurrency }}</span>
+      </div>
+      <div class="summary-card" [ngClass]="{'profit': totalGainLoss >= 0, 'loss': totalGainLoss < 0}">
+        <span class="label">Overall Gain/Loss</span>
+        <span class="value">{{ totalGainLoss | currency:userCurrency }}</span>
+      </div>
+      <div class="summary-card" [ngClass]="{'profit': overallGainPercent >= 0, 'loss': overallGainPercent < 0}">
+        <span class="label">Overall Return</span>
+        <span class="value">{{ overallGainPercent | percent:'1.2-2' }}</span>
+      </div>
+    </div>
+  }
+
+  <!-- Data Table -->
+  <div class="table-container">
+    <table class="portfolio-table">
+      <thead>
+        <tr>
+          <th>Stock Name</th>
+          <th>Ticker</th>
+          <th>Quantity</th>
+          <th>Buy Price</th>
+          <th>Current Price</th>
+          <th>Invested Amount</th>
+          <th>Current Value</th>
+          <th>Gain/Loss</th>
+          <th>% Gain</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Loading State -->
+        @if (isLoading) {
+          <tr>
+            <td colspan="10" class="state-cell">Loading portfolio & live prices...</td>
+          </tr>
+        } @else if (portfolio.length === 0) {
+          <!-- Empty State -->
+          <tr>
+            <td colspan="10" class="state-cell">
+              <h2>Your portfolio is empty.</h2>
+              <p>Click <a routerLink="/add">Add Stock</a> to get started.</p>
+            </td>
+          </tr>
+        } @else {
+          <!-- Data Rows with Staggered Animation -->
+          @for (stock of portfolio; track stock._id; let i = $index) {
+            <tr [style.--i]="i">
+              <td data-label="Stock Name">{{ stock.name }}</td>
+              <td data-label="Ticker">{{ stock.ticker }}</td>
+              <td data-label="Quantity">{{ stock.quantity | number }}</td>
+              <td data-label="Buy Price">{{ stock.buyPrice | currency:userCurrency }}</td>
+              <td data-label="Current Price">{{ stock.currentPrice ? (stock.currentPrice | currency:userCurrency) : 'N/A' }}</td>
+              <td data-label="Invested Amount">{{ stock.investedAmount | currency:userCurrency }}</td>
+              <td data-label="Current Value">{{ stock.currentValue ? (stock.currentValue | currency:userCurrency) : 'N/A' }}</td>
+              <td data-label="Gain/Loss" [ngClass]="{'profit': stock.gainLoss && stock.gainLoss >= 0, 'loss': stock.gainLoss && stock.gainLoss < 0}">
+                {{ stock.gainLoss ? (stock.gainLoss | currency:userCurrency) : 'N/A' }}
+              </td>
+              <td data-label="% Gain" [ngClass]="{'profit': stock.gainLossPercent && stock.gainLossPercent >= 0, 'loss': stock.gainLossPercent && stock.gainLossPercent < 0}">
+                {{ stock.gainLossPercent ? (stock.gainLossPercent | percent:'1.2-2') : 'N/A' }}
+              </td>
+              <td data-label="Actions">
+                <button (click)="deleteStock(stock._id)" class="delete-btn">Delete</button>
+              </td>
+            </tr>
+          }
+        }
+      </tbody>
+    </table>
+  </div>
+</div>
