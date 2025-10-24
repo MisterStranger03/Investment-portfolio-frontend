@@ -7,7 +7,7 @@ interface ApiResponse { success: boolean; data: any; error?: string; }
 
 @Injectable({ providedIn: 'root' })
 export class PortfolioService {
-  private apiUrl = 'http://localhost:3000/api';
+  private apiUrl = 'https://investment-portfolio-backend.vercel.app/api';
   private http = inject(HttpClient);
 
   getStocks(): Observable<ApiResponse> {

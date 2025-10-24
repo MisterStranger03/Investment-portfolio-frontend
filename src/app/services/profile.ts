@@ -10,7 +10,7 @@ export interface Profile { name: string; defaultCurrency: string; imageUrl: stri
 
 @Injectable({ providedIn: 'root' })
 export class ProfileService {
-  private apiUrl = 'http://localhost:3000/api';
+  private apiUrl = 'https://investment-portfolio-backend.vercel.app/api';
   private http = inject(HttpClient);
   private authService = inject(AuthService);
 
