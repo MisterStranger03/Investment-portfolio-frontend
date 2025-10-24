@@ -20,16 +20,25 @@ export class AppComponent implements OnInit, OnDestroy {
   isDropdownOpen = false;
 
   ngOnInit() {
-    // When the user logs in, fetch their profile
+    // When the user's authentication state changes...
     this.authSub = this.authService.authState$.subscribe(user => {
+      // If a user is logged in...
       if (user) {
-        this.profileService.fetchUserProfile();
+        // --- THIS IS THE FIX ---
+        // Call the correct method, 'getProfile()'.
+        // We subscribe here just to trigger the API call. The 'tap' operator
+        // inside the service will handle updating the signal.
+        this.profileService.getProfile().subscribe();
+        // -------------------------
       }
     });
   }
 
   ngOnDestroy() {
-    this.authSub.unsubscribe();
+    // Clean up the subscription to prevent memory leaks
+    if (this.authSub) {
+      this.authSub.unsubscribe();
+    }
   }
 
   toggleDropdown() {
