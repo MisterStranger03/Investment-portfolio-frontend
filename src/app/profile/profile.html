@@ -5,7 +5,7 @@
     
     <!-- Profile Picture Section -->
     <div class="profile-picture-section">
-      <img [src]="profileForm.get('imageUrl')?.value || '/assets/default-avatar.png'" alt="Profile Picture" class="profile-picture">
+      <img [src]="profileForm.get('imageUrl')?.value || './assets/default-avatar.png'" alt="Profile Picture" class="profile-picture">
       <input type="file" (change)="onFileChange($event)" #fileInput hidden>
       <button (click)="fileInput.click()" class="change-picture-btn">Change Picture</button>
     </div>
