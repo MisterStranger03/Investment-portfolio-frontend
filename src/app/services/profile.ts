@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { AuthService } from './auth'; // Ensure this path is correct
+import { environment } from '../../environments/environment.prod';
 
 // Define interfaces at the top level for reusability
 interface ApiResponse { success: boolean; data: any; error?: string; }
@@ -10,7 +11,7 @@ export interface Profile { name: string; defaultCurrency: string; imageUrl: stri
 
 @Injectable({ providedIn: 'root' })
 export class ProfileService {
-  private apiUrl = 'https://investment-portfolio-backend.vercel.app/api';
+  private apiUrl = `${environment.backendUrl}/api`;
   private http = inject(HttpClient);
   private authService = inject(AuthService);
 
